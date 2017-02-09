@@ -1,0 +1,10 @@
+[
+    {
+        "text": "Users",
+        "route": "laralum::users.index"
+    },
+    {
+        "text": "Create user",
+        "route": "laralum::users.create"
+    }
+]
