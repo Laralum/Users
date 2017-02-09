@@ -1,8 +1,21 @@
 @extends('laralum::layouts.master')
 @section('icon', 'mdi-account-multiple')
 @section('title', 'Users')
-@section('subtitle', 'Here you can manage users')
+@section('subtitle', 'Users will allow you to easily manage all your website users and assign then roles.')
 @section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-block">
+                    <h5>Quick Actions</h5><br />
+                    <a class="btn btn-success" href="{{ route('laralum::users.create') }}">Create User</a>
+                    <a class="btn btn-primary disabled" href="#">Users Settings</a>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <div class="row">
         <div class="col col-md-12">
             <div class="card shadow">
@@ -15,7 +28,7 @@
                             <br />
                         </center>
                     @else
-                        <h4>Users list</h4><br />
+                        <h5>Users list</h5><br />
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>

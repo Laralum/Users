@@ -1,10 +1,17 @@
-[
-    {
-        "text": "Users",
-        "route": "laralum::users.index"
-    },
-    {
-        "text": "Create user",
-        "route": "laralum::users.create"
-    }
-]
+{
+    "name": "User Administration",
+    "items": [
+        {
+            "text": "Users",
+            "route": "laralum::users.index"
+        },
+        {
+            "text": "Roles",
+            "route": "laralum::roles.index"
+        },
+        {
+            "text": "Permissions",
+            "route": "laralum::permissions.index"
+        }
+    ]
+}
