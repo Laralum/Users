@@ -5,6 +5,7 @@ namespace Laralum\Users\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Laralum\Users\Models\User;
+use Laralum\Roles\Models\Role;
 use Auth;
 
 class UserController extends Controller
@@ -125,6 +126,42 @@ class UserController extends Controller
 
         return redirect()->route('laralum::users.index')->with('success','User deleted!');
     }
+
+    /**
+     * Manage roles from users.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function manageRoles($id)
+    {
+        $roles = Role::all();
+
+        return view('laralum_users::roles.manage', ['user' => User::findOrFail($id), 'roles' => $roles]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateRoles(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+
+        foreach($roles as $role) {
+            if( array_key_exists($role->id, $request->all()) ) {
+                $role->addUser($user);
+            } else {
+                $role->deleteUser($user);
+            }
+        }
+        return redirect()->route('laralum::users.index')->with('success', 'User '.$user->id.' roles updated!');
+    }
+
 
     private function doValidation($request, $requiredPass = true)
     {
