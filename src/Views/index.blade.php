@@ -46,11 +46,14 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>
-                                                <a href="{{ route('laralum::users.edit', ['id' => $user->id]) }}" class="btn btn-primary btn-sm">
+                                                <a href="{{ route('laralum::users.edit', ['id' => $user->id]) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit user #{{$user->id}}">
                                                     <i class="mdi mdi-pencil"></i>
                                                 </a>
-                                                <a href="{{ route('laralum::users.destroy.confirm', ['id' => $user->id]) }}" class="btn btn-danger btn-sm" @if($user->id == Auth::id()) style="pointer-events: none;opacity: 0.5;" @endif>
+                                                <a href="{{ route('laralum::users.destroy.confirm', ['id' => $user->id]) }}" class="btn btn-danger btn-sm @if($user->id == Auth::id()) disabled @endif" data-toggle="tooltip" data-placement="top" title="Delete user #{{$user->id}}">
                                                     <i class="mdi mdi-delete"></i>
+                                                </a>
+                                                <a href="{{ route('laralum::users.roles.manage', ['id' => $user->id]) }}" class="btn btn-warning btn-sm @if($user->id == Auth::id()) disabled @endif" data-toggle="tooltip" data-placement="top" title="Manage roles of user #{{$user->id}}">
+                                                    <i class="mdi mdi-svg"></i>
                                                 </a>
                                             </td>
                                         </tr>
