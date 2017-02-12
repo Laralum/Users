@@ -1,7 +1,7 @@
 @extends('laralum::layouts.master')
 @section('icon', 'mdi-account-multiple')
 @section('title', 'Users')
-@section('subtitle', 'Users will allow you to easily manage all your website users and assign then roles.')
+@section('subtitle', 'Users will allow you to easily manage all your website users and assign them roles.')
 @section('content')
     <div class="row">
         <div class="col-md-12">
