@@ -1,17 +1,12 @@
 {
-    "name": "User manager",
     "items": [
         {
-            "text": "Users",
+            "text": "User List",
             "route": "laralum::users.index"
         },
         {
-            "text": "Roles",
-            "route": "laralum::roles.index"
-        },
-        {
-            "text": "Permissions",
-            "route": "laralum::permissions.index"
+            "text": "Create User",
+            "route": "laralum::users.create"
         }
     ]
 }
