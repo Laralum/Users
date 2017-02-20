@@ -1,7 +1,20 @@
 @extends('laralum::layouts.master')
-@section('icon', 'mdi-pencil-circle')
-@section('title', 'Edit user')
-@section('subtitle', "You're editing user #" . $user->id . " created " . $user->created_at->diffForHumans())
+@section('icon', 'ion-edit')
+@section('title', trans('laralum_users::general.edit_user'))
+@section('subtitle', trans('laralum_users::general.edit_desc', ['id' => "#".$user->id, 'time_ago' => $user->created_at->diffForHumans()]))
+@section('breadcrumb')
+    <ul class="uk-breadcrumb">
+        <li><a href="{{ route('laralum::index') }}">@lang('laralum_tickets::general.home')</a></li>
+        <li><a href="{{ route('laralum::users.index') }}">@lang('laralum_users::general.user_list')</a></li>
+        <li><span>@lang('laralum_users::general.edit_user')</span></li>
+    </ul>
+@endsection
 @section('content')
-    @include('laralum_users::form', ['action' => route('laralum::users.update', ['user' => $user]), 'button' => 'Edit', 'method' => 'PATCH', 'user' => $user, 'cancel' => route('laralum::users.index')])
+    @include('laralum_users::form', [
+        'title' =>  trans('laralum_users::general.edit_user'),
+        'action' => route('laralum::users.update', ['user' => $user]),
+        'button' => trans('laralum_users::general.edit'),
+        'method' => 'PATCH',
+        'cancel' => route('laralum::users.index'),
+    ])
 @endsection

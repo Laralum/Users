@@ -13,6 +13,9 @@ class UsersServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->loadTranslationsFrom(__DIR__.'/Translations', 'laralum_users');
+
         $this->loadViewsFrom(__DIR__.'/Views', 'laralum_users');
 
         if (!$this->app->routesAreCached()) {

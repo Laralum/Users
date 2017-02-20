@@ -1,67 +1,51 @@
 @extends('laralum::layouts.master')
-@section('icon', 'mdi-account-multiple')
-@section('title', 'Users')
-@section('subtitle', 'Users will allow you to easily manage all your website users and assign them roles.')
+@section('icon', 'ion-person-stalker')
+@section('title', trans('laralum_users::general.users'))
+@section('subtitle', trans('laralum_users::general.users_desc'))
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card shadow">
-                <div class="card-block">
-                    <h5>Quick Actions</h5><br />
-                    <a class="btn btn-success" href="{{ route('laralum::users.create') }}">Create User</a>
-                    <a class="btn btn-primary disabled" href="#">Users Settings</a>
-                    <br />
-                </div>
-            </div>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col col-md-12">
-            <div class="card shadow">
-                <div class="card-block">
-                    @if ($users->count() == 0)
-                        <center>
-                            <br /><br />
-                            <h3>There are no users yet</h3>
-                            <h1 class="mdi mdi-emoticon-sad"></h1>
-                            <br />
-                        </center>
-                    @else
-                        <h5>Users list</h5><br />
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
+    <div class="uk-container uk-container-large">
+        <div uk-grid class="uk-child-width-1-1">
+            <div>
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-header">
+                        @lang('laralum_advertisements::general.advertisement_list')
+                    </div>
+                    <div class="uk-card-body">
+                        <div class="uk-overflow-auto">
+                            <table class="uk-table uk-table-striped">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Actions</th>
+                                        <th>@lang('laralum_users::general.name')</th>
+                                        <th>@lang('laralum_users::general.email')</th>
+                                        <th>@lang('laralum_users::general.actions')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr>
-                                            <th>{{ $user->id }}</th>
+                                            <td>{{ $user->id }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>
-                                                <a href="{{ route('laralum::users.edit', ['id' => $user->id]) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit user #{{$user->id}}">
-                                                    <i class="mdi mdi-pencil"></i>
-                                                </a>
-                                                <a href="{{ route('laralum::users.destroy.confirm', ['id' => $user->id]) }}" class="btn btn-danger btn-sm @if($user->id == Auth::id()) disabled @endif" data-toggle="tooltip" data-placement="top" title="Delete user #{{$user->id}}">
-                                                    <i class="mdi mdi-delete"></i>
-                                                </a>
-                                                <a href="{{ route('laralum::users.roles.manage', ['id' => $user->id]) }}" class="btn btn-warning btn-sm @if($user->id == Auth::id()) disabled @endif" data-toggle="tooltip" data-placement="top" title="Manage roles of user #{{$user->id}}">
-                                                    <i class="mdi mdi-svg"></i>
-                                                </a>
+                                            <td class="uk-table-shrink">
+                                                <div class="uk-button-group">
+                                                    <a href="{{ route('laralum::users.roles.manage', ['id' => $user->id]) }}" class="uk-button uk-button-small uk-button-default">
+                                                        @lang('laralum_users::general.roles')
+                                                    </a>
+                                                    <a href="{{ route('laralum::users.edit', ['id' => $user->id]) }}" class="uk-button uk-button-small uk-button-default @if($user->id == Auth::id()) uk-disabled @endif">
+                                                        @lang('laralum_users::general.edit')
+                                                    </a>
+                                                    <a href="{{ route('laralum::users.destroy.confirm', ['user' => $user->id]) }}" class="uk-button uk-button-small uk-button-danger @if($user->id == Auth::id()) uk-disabled @endif">
+                                                        @lang('laralum_users::general.delete')
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
         </div>
