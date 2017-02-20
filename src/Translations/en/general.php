@@ -9,6 +9,7 @@ return [
     */
 
     'users'         => 'Users',
+    'home'          => 'Home',
     'user_list'     => 'User List',
     'users_desc'    => 'Users will allow you to easily manage all your website users and assign them roles.',
     'create'        => 'Create',

@@ -1,14 +1,20 @@
 @extends('laralum::layouts.master')
 @section('icon', 'ion-person-stalker')
-@section('title', trans('laralum_users::general.users'))
+@section('title', trans('laralum_users::general.user_list'))
 @section('subtitle', trans('laralum_users::general.users_desc'))
+@section('breadcrumb')
+    <ul class="uk-breadcrumb">
+        <li><a href="{{ route('laralum::index') }}">@lang('laralum_users::general.home')</a></li>
+        <li><span href="">@lang('laralum_users::general.user_list')</span></li>
+    </ul>
+@endsection
 @section('content')
     <div class="uk-container uk-container-large">
         <div uk-grid class="uk-child-width-1-1">
             <div>
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-header">
-                        @lang('laralum_advertisements::general.advertisement_list')
+                        @lang('laralum_users::general.user_list')
                     </div>
                     <div class="uk-card-body">
                         <div class="uk-overflow-auto">
