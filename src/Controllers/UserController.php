@@ -51,7 +51,7 @@ class UserController extends Controller
      * Display the specified resource.
      * Currently not used
      *
-     * @param  int  $id
+     * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -62,7 +62,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -77,8 +77,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request  $request
+     * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -101,7 +101,7 @@ class UserController extends Controller
     /**
      * Displays a view to confirm delete.
      *
-     * @param  int  $id
+     * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function confirmDelete(User $user)
@@ -120,7 +120,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -136,7 +136,7 @@ class UserController extends Controller
     /**
      * Manage roles from users.
      *
-     * @param  int  $id
+     * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function manageRoles(User $user)
@@ -149,8 +149,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request  $request
+     * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function updateRoles(Request $request, User $user)
@@ -167,7 +167,12 @@ class UserController extends Controller
         return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_roles_updated', ['id' => $user->id]));
     }
 
-
+    /**
+     * This function valiate the request for create and edit forms.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param bool  $requiredPass
+     */
     private function doValidation($request, $requiredPass = true)
     {
         $rules = '';
