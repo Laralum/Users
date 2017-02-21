@@ -33,17 +33,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $this->doValidation($request);
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        User::create($request->all());
         return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_created', ['email' => $request->email]));
     }
 
@@ -68,7 +64,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         if ($user->id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', trans('laralum_users::general.edit_yourself_error'));
+            return redirect()->route('laralum::users.index')->with('error', __('laralum_users::general.edit_yourself_error'));
         }
         return view('laralum_users::edit', ['user' => $user]);
 
@@ -77,14 +73,14 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
     {
         if ($user->id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', trans('laralum_users::general.edit_yourself_error'));
+            return redirect()->route('laralum::users.index')->with('error', __('laralum_users::general.edit_yourself_error'));
         }
         $this->doValidation($request, false);
         $update = [
@@ -107,7 +103,7 @@ class UserController extends Controller
     public function confirmDelete(User $user)
     {
         if ($user->id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', trans('laralum_users::general.delete_yourself_error'));
+            return redirect()->route('laralum::users.index')->with('error', __('laralum_users::general.delete_yourself_error'));
         }
 
         return view('laralum::pages.confirmation', [
@@ -126,7 +122,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', trans('laralum_users::general.delete_yourself_error'));
+            return redirect()->route('laralum::users.index')->with('error', __('laralum_users::general.delete_yourself_error'));
         }
 
         $user->delete();
@@ -149,7 +145,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @param \Laralum\Users\Models\User $user
      * @return \Illuminate\Http\Response
      */
@@ -170,7 +166,7 @@ class UserController extends Controller
     /**
      * This function valiate the request for create and edit forms.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @param bool  $requiredPass
      */
     private function doValidation($request, $requiredPass = true)

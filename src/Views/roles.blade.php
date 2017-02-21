@@ -1,5 +1,5 @@
 @extends('laralum::layouts.master')
-@section('icon', 'ion-key')
+@section('icon', 'ion-ribbon-a')
 @section('title', __('laralum_users::general.user_roles'))
 @section('subtitle', __('laralum_users::general.roles_desc', ['id' => $user->id, 'total' => $roles->count()]))
 @section('breadcrumb')
@@ -23,30 +23,24 @@
                             {{ csrf_field() }}
                             @if(isset($method)) {{ method_field($method) }} @endif
                                 <fieldset class="uk-fieldset">
-
-
-                                       <div class="uk-margin uk-grid">
-                                       @foreach($roles as $role)
-                                           <div class="uk-width-1-1@m uk-width-1-2@l uk-margin-small-bottom">
-                                               <label><input class="uk-checkbox" name="{{ $role->id }}" type="checkbox"  @if($role->hasUser($user)) checked @endif> {{ $role->name }}</label>
-                                               <div class="uk-text-meta">
-                                                   {{ $role->description }}
-                                               </div>
+                                   <div class="uk-margin uk-grid">
+                                   @foreach($roles as $role)
+                                       <div class="uk-width-1-1@m uk-width-1-2@l uk-margin-small-bottom">
+                                           <label><input class="uk-checkbox" name="{{ $role->id }}" type="checkbox"  @if($role->hasUser($user)) checked @endif> {{ $role->name }}</label>
+                                           <div class="uk-text-meta">
+                                               {{ $role->description }}
                                            </div>
-                                       @endforeach
                                        </div>
+                                   @endforeach
+                                   </div>
 
-                                       <div class="uk-margin">
-                                           <a href="{{ route('laralum::users.index') }}" class="uk-button uk-button-default uk-align-left"> @lang('laralum_users::general.cancel')</a>
-                                           <button type="submit" class="uk-button uk-button-primary uk-align-right">
-                                               <span class="ion-forward"></span>&nbsp; @lang('laralum_users::general.submit')
-                                           </button>
-                                       </div>
-                                   </fieldset>
-
-
-
-
+                                   <div class="uk-margin">
+                                       <a href="{{ route('laralum::users.index') }}" class="uk-button uk-button-default uk-align-left"> @lang('laralum_users::general.cancel')</a>
+                                       <button type="submit" class="uk-button uk-button-primary uk-align-right">
+                                           <span class="ion-forward"></span>&nbsp; @lang('laralum_users::general.submit')
+                                       </button>
+                                   </div>
+                               </fieldset>
                         </form>
                     </div>
                 </div>
