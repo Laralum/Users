@@ -40,20 +40,21 @@ class UserController extends Controller
     {
         $this->doValidation($request);
         User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
         ]);
-        return redirect()->route('laralum::users.index')->with('success', 'User with mail '. $request->input('email'). 'has been created!');
+        return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_created', ['email' => $request->email]));
     }
 
     /**
      * Display the specified resource.
+     * Currently not used
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
         //
     }
@@ -64,9 +65,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        return view('laralum_users::edit', ['user' => User::findOrFail($id)]);
+        if ($user->id == Auth::id()) {
+            return redirect()->route('laralum::users.index')->with('error', trans('laralum_users::general.edit_yourself_error'));
+        }
+        return view('laralum_users::edit', ['user' => $user]);
 
     }
 
@@ -77,17 +81,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
+        if ($user->id == Auth::id()) {
+            return redirect()->route('laralum::users.index')->with('error', trans('laralum_users::general.edit_yourself_error'));
+        }
         $this->doValidation($request, false);
         $update = [
-            'name' => $request->input('name'),
+            'name' => $request->name,
         ];
-        if (strlen($request->input('password')) > 0) {
+        if ($request->password) {
             $this->doValidation($request, true);
-            $update['password'] = bcrypt($request->input('password'));
+            $update['password'] = bcrypt($request->password);
         }
-        $user = User::findOrFail($id);
         $user->update($update);
         return redirect()->route('laralum::users.index');
     }
@@ -98,12 +104,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function confirmDelete($id)
+    public function confirmDelete(User $user)
     {
-        if ($id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', 'You cannot delete yourself');
+        if ($user->id == Auth::id()) {
+            return redirect()->route('laralum::users.index')->with('error', trans('laralum_users::general.delete_yourself_error'));
         }
-        $user = User::findOrFail($id);
 
         return view('laralum::pages.confirmation', [
             'method' => 'DELETE',
@@ -118,13 +123,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
+        if ($user->id == Auth::id()) {
+            return redirect()->route('laralum::users.index')->with('error', trans('laralum_users::general.delete_yourself_error'));
+        }
 
         $user->delete();
-
-        return redirect()->route('laralum::users.index')->with('success','User deleted!');
+        return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_deleted', ['id' => $user->id]));
     }
 
     /**
@@ -133,11 +139,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function manageRoles($id)
+    public function manageRoles(User $user)
     {
         $roles = Role::all();
 
-        return view('laralum_users::roles.manage', ['user' => User::findOrFail($id), 'roles' => $roles]);
+        return view('laralum_users::roles', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -147,9 +153,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateRoles(Request $request, $id)
+    public function updateRoles(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
         $roles = Role::all();
 
         foreach($roles as $role) {
@@ -159,7 +164,7 @@ class UserController extends Controller
                 $role->deleteUser($user);
             }
         }
-        return redirect()->route('laralum::users.index')->with('success', 'User '.$user->id.' roles updated!');
+        return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_roles_updated', ['id' => $user->id]));
     }
 
 

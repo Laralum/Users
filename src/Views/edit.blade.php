@@ -1,7 +1,7 @@
 @extends('laralum::layouts.master')
 @section('icon', 'ion-edit')
-@section('title', trans('laralum_users::general.edit_user'))
-@section('subtitle', trans('laralum_users::general.edit_desc', ['id' => "#".$user->id, 'time_ago' => $user->created_at->diffForHumans()]))
+@section('title', __('laralum_users::general.edit_user'))
+@section('subtitle', __('laralum_users::general.edit_desc', ['id' => "#".$user->id, 'time_ago' => $user->created_at->diffForHumans()]))
 @section('breadcrumb')
     <ul class="uk-breadcrumb">
         <li><a href="{{ route('laralum::index') }}">@lang('laralum_tickets::general.home')</a></li>
@@ -11,9 +11,9 @@
 @endsection
 @section('content')
     @include('laralum_users::form', [
-        'title' =>  trans('laralum_users::general.edit_user'),
+        'title' =>  __('laralum_users::general.edit_user'),
         'action' => route('laralum::users.update', ['user' => $user]),
-        'button' => trans('laralum_users::general.edit'),
+        'button' => __('laralum_users::general.edit'),
         'method' => 'PATCH',
         'cancel' => route('laralum::users.index'),
     ])

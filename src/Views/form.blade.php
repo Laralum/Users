@@ -7,7 +7,7 @@
                     {{ $title }}
                 </div>
                 <div class="uk-card-body">
-                    <form method="POST" action="{{ $action }}">
+                    <form method="POST" action="{{ $action }}" class="uk-form-stacked">
                         {{ csrf_field() }}
                         @if(isset($method)) {{ method_field($method) }} @endif
                         <fieldset class="uk-fieldset">

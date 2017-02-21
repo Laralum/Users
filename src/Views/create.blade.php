@@ -1,7 +1,7 @@
 @extends('laralum::layouts.master')
 @section('icon', 'ion-person-add')
-@section('title', trans('laralum_users::general.create_user'))
-@section('subtitle', trans('laralum_users::general.create_user_desc'))
+@section('title', __('laralum_users::general.create_user'))
+@section('subtitle', __('laralum_users::general.create_user_desc'))
 @section('breadcrumb')
     <ul class="uk-breadcrumb">
         <li><a href="{{ route('laralum::index') }}">@lang('laralum_users::general.home')</a></li>
@@ -11,9 +11,9 @@
 @endsection
 @section('content')
     @include('laralum_users::form', [
-        'title' =>  trans('laralum_users::general.create_user'),
+        'title' =>  __('laralum_users::general.create_user'),
         'action' => route('laralum::users.store'),
-        'button' => trans('laralum_users::general.create'),
+        'button' => __('laralum_users::general.create'),
         'cancel' => route('laralum::users.index')
     ])
 @endsection
