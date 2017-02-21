@@ -19,11 +19,13 @@ class User extends ExtendUser
 
     /**
     * Returns if the user has a permission.
-    * @param \Laralum\Permissions\Models\Permision $permision
+    * @param mixed $permision
     * @return bool
     */
-    public function hasPermissions(Permision $permision)
+    public function hasPermissions($permision)
     {
+        $permission = !is_string($permission) ?: Permission::where(['slug' => $permission])->firstOrFail();
+
         foreach( $this->roles as $role ) {
             foreach( $role->permissions as $p ) {
                 if( $p->id == $permision->id ) {
@@ -36,48 +38,16 @@ class User extends ExtendUser
     }
 
     /**
-    * Returns if the user has a permission.
-    * @param string $permision
-    * @return bool
-    */
-    public function hasPermissionsBySlug($slug)
-    {
-        foreach( $this->roles as $role ) {
-            foreach( $role->permissions as $p ) {
-                if( $p->slug == $slug ){
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
     * Returns if the user has a role.
-    * @param \Laralum\Roles\Models\Role $role
+    * @param mixed $role
     * @return bool
     */
     public function hasRole(Role $role)
     {
+        $role = !is_string($role) ?: Role::where(['name' => $role])->firstOrFail();
+
         foreach( $this->roles as $r ) {
             if( $r->id == $role->id ) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-    * Returns if the user has a role by name.
-    * @param string $role
-    * @return bool
-    */
-    public function hasRoleByName($name)
-    {
-        foreach( $this->roles as $r ) {
-            if( $name == $role->name ) {
                 return true;
             }
         }
