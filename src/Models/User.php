@@ -4,7 +4,7 @@ namespace Laralum\Users\Models;
 
 use App\User as ExtendUser;
 use Laralum\Roles\Models\Role;
-use Laralum\Permisions\Models\Permision;
+use Laralum\Permissions\Models\Permission;
 use File;
 
 class User extends ExtendUser
@@ -14,7 +14,7 @@ class User extends ExtendUser
     */
     public function roles()
     {
-        return $this->belongsToMany('Laralum\Roles\Models\Role');
+        return $this->belongsToMany('Laralum\Roles\Models\Role', 'laralum_role_user');
     }
 
     /**
@@ -22,13 +22,13 @@ class User extends ExtendUser
     * @param mixed $permision
     * @return bool
     */
-    public function hasPermissions($permision)
+    public function hasPermission($permission)
     {
-        $permission = !is_string($permission) ?: Permission::where(['slug' => $permission])->firstOrFail();
+        $permission = !is_string($permission) ?: Permission::where(['slug' => $permission])->first();
 
         foreach( $this->roles as $role ) {
             foreach( $role->permissions as $p ) {
-                if( $p->id == $permision->id ) {
+                if( $p->id == $permission->id ) {
                     return true;
                 }
             }
