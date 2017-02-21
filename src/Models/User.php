@@ -26,11 +26,13 @@ class User extends ExtendUser
     {
         foreach( $this->roles as $role ) {
             foreach( $role->permissions as $p ) {
-                ($p->id != $permision->id) ?: return true;
+                if( $p->id == $permision->id ) {
+                    return true;
+                }
             }
         }
 
-        return false
+        return false;
     }
 
     /**
@@ -42,11 +44,13 @@ class User extends ExtendUser
     {
         foreach( $this->roles as $role ) {
             foreach( $role->permissions as $p ) {
-                ($p->slug != $slug) ?: return true;
+                if( $p->slug == $slug ){
+                    return true;
+                }
             }
         }
 
-        return false
+        return false;
     }
 
     /**
@@ -57,10 +61,12 @@ class User extends ExtendUser
     public function hasRole(Role $role)
     {
         foreach( $this->roles as $r ) {
-            ($r->id != $role->id) ?: return true;
+            if( $r->id == $role->id ) {
+                return true;
+            }
         }
 
-        return false
+        return false;
     }
 
     /**
@@ -71,10 +77,12 @@ class User extends ExtendUser
     public function hasRoleByName($name)
     {
         foreach( $this->roles as $r ) {
-            ($name != $role->name) ?: return true;
+            if( $name == $role->name ) {
+                return true;
+            }
         }
 
-        return false
+        return false;
     }
 
     /**
