@@ -56,6 +56,14 @@ class User extends ExtendUser
     }
 
     /**
+     * Returns true if the user is a super administrator.
+     */
+    public function superAdmin()
+    {
+        return $this->id == User::first()->id;
+    }
+
+    /**
     * Returns the user avatar.
     */
     public function avatar()
