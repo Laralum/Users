@@ -5,10 +5,13 @@ namespace Laralum\Users\Models;
 use App\User as ExtendUser;
 use Laralum\Roles\Models\Role;
 use Laralum\Permissions\Models\Permission;
-use File;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\File;
 
 class User extends ExtendUser
 {
+    use Notifiable;
+
     /**
     * Returns the user roles.
     */
