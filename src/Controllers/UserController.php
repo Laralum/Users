@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laralum\Users\Models\User;
 use Laralum\Roles\Models\Role;
 use Auth;
+use File;
 
 class UserController extends Controller
 {
@@ -17,6 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', User::class);
         return view('laralum_users::index', ['users' => User::all()]);
     }
 
@@ -27,6 +29,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
+
         return view('laralum_users::create');
     }
 
@@ -38,22 +42,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', User::class);
         $this->doValidation($request);
         User::create($request->all());
         return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_created', ['email' => $request->email]));
     }
 
-    /**
-     * Display the specified resource.
-     * Currently not used
-     *
-     * @param \Laralum\Users\Models\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -63,9 +57,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if ($user->id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', __('laralum_users::general.edit_yourself_error'));
-        }
+        $this->authorize('update', $user);
         return view('laralum_users::edit', ['user' => $user]);
 
     }
@@ -79,9 +71,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        if ($user->id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', __('laralum_users::general.edit_yourself_error'));
-        }
+        $this->authorize('update', $user);
         $this->doValidation($request, false);
         $update = [
             'name' => $request->name,
@@ -102,9 +92,7 @@ class UserController extends Controller
      */
     public function confirmDelete(User $user)
     {
-        if ($user->id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', __('laralum_users::general.delete_yourself_error'));
-        }
+        $this->authorize('delete', $user);
 
         return view('laralum::pages.confirmation', [
             'method' => 'DELETE',
@@ -121,11 +109,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($user->id == Auth::id()) {
-            return redirect()->route('laralum::users.index')->with('error', __('laralum_users::general.delete_yourself_error'));
-        }
+        $this->authorize('delete', $user);
 
         $user->delete();
+
+        File::delete(public_path('/avatars/'.md5($user->email)));
+
         return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_deleted', ['id' => $user->id]));
     }
 
@@ -137,6 +126,8 @@ class UserController extends Controller
      */
     public function manageRoles(User $user)
     {
+        $this->authorize('roles', $user);
+
         $roles = Role::all();
 
         return view('laralum_users::roles', ['user' => $user, 'roles' => $roles]);
@@ -151,6 +142,8 @@ class UserController extends Controller
      */
     public function updateRoles(Request $request, User $user)
     {
+        $this->authorize('roles', $user);
+
         $roles = Role::all();
 
         foreach($roles as $role) {

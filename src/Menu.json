@@ -1,11 +1,11 @@
 {
     "items": [
         {
-            "text": "User List",
+            "trans": "laralum_users::general.user_list",
             "route": "laralum::users.index"
         },
         {
-            "text": "Create User",
+            "trans": "laralum_users::general.create_user",
             "route": "laralum::users.create"
         }
     ]
