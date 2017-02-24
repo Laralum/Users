@@ -80,7 +80,7 @@ class UserPolicy
     public function roles($user, User $userToManage)
     {
         $user = User::findOrFail($user);
-        if ($userToManage->id == $user->id) {
+        if ($userToManage->id == $user->id || $userToManage->superAdmin()) {
             return false;
         }
         return User::findOrFail($user->id)->hasPermission('laralum::users.roles');
