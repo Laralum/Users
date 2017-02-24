@@ -10,19 +10,6 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * Filters the authoritzation.
-     *
-     * @param mixed $user
-     * @param mixed $ability
-     */
-    public function before($user, $ability)
-    {
-        if (User::findOrFail($user->id)->superAdmin()) {
-            return true;
-        }
-    }
-
-    /**
      * Determine if the current user can view users module.
      *
      * @param  mixed $user
@@ -30,6 +17,9 @@ class UserPolicy
      */
     public function access($user)
     {
+        if (User::findOrFail($user->id)->superAdmin()) {
+            return true;
+        }
         return User::findOrFail($user->id)->hasPermission('laralum::users.access');
     }
 
@@ -41,6 +31,9 @@ class UserPolicy
      */
     public function view($user)
     {
+        if (User::findOrFail($user->id)->superAdmin()) {
+            return true;
+        }
         return User::findOrFail($user->id)->hasPermission('laralum::users.view');
     }
 
@@ -52,6 +45,9 @@ class UserPolicy
      */
     public function create($user)
     {
+        if (User::findOrFail($user->id)->superAdmin()) {
+            return true;
+        }
         return User::findOrFail($user->id)->hasPermission('laralum::users.create');
     }
 
@@ -67,6 +63,11 @@ class UserPolicy
         if ($userToManage->id == $user->id || $userToManage->superAdmin()) {
             return false;
         }
+
+        if (User::findOrFail($user->id)->superAdmin()) {
+            return true;
+        }
+        
         return User::findOrFail($user->id)->hasPermission('laralum::users.update');
     }
 
@@ -79,6 +80,9 @@ class UserPolicy
      */
     public function roles($user, User $userToManage)
     {
+        if (User::findOrFail($user->id)->superAdmin()) {
+            return true;
+        }
         $user = User::findOrFail($user);
         if ($userToManage->id == $user->id || $userToManage->superAdmin()) {
             return false;
