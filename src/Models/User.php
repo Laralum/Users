@@ -19,7 +19,7 @@ class User extends ExtendUser
      */
     public function superAdmin()
     {
-        return $this->id == User::first()->id;
+        return in_array($this->email, config('laralum_users.superadmins'));
     }
 
     /**

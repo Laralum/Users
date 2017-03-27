@@ -72,6 +72,10 @@ class UsersServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/Views', 'laralum_users');
 
+        $this->publishes([
+            __DIR__.'/../config/laralum_users.php' => config_path('laralum_users.php'),
+        ], 'config');
+
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Routes/web.php';
         }
@@ -104,5 +108,8 @@ class UsersServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/laralum_users.php', 'laralum_users'
+        );
     }
 }
