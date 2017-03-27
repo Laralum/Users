@@ -74,7 +74,7 @@ class UsersServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../config/laralum_users.php' => config_path('laralum_users.php'),
-        ], 'config');
+        ], 'laralum_users_config');
 
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Routes/web.php';
