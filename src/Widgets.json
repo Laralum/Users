@@ -1,0 +1,6 @@
+[
+    {
+        "view": "laralum_users::widgets.users",
+        "permission": "laralum::users.access"
+    }
+]
