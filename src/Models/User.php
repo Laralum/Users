@@ -3,10 +3,7 @@
 namespace Laralum\Users\Models;
 
 use App\User as ExtendUser;
-use Laralum\Roles\Models\Role;
-use Laralum\Permissions\Models\Permission;
 use Illuminate\Support\Facades\File;
-
 use Laralum\Notifications\Traits\Notifiable;
 use Laralum\Roles\Traits\HasRolesAndPermissions;
 
@@ -23,8 +20,8 @@ class User extends ExtendUser
     }
 
     /**
-    * Returns the user avatar.
-    */
+     * Returns the user avatar.
+     */
     public function avatar($size = 100)
     {
         /*
@@ -35,13 +32,14 @@ class User extends ExtendUser
         */
         // Get gavatar avatar
         $email = md5(strtolower(trim($this->email)));
-        $default = urlencode("https://tracker.moodle.org/secure/attachment/30912/f3.png");
+        $default = urlencode('https://tracker.moodle.org/secure/attachment/30912/f3.png');
+
         return "https://www.gravatar.com/avatar/$email?d=$default&s=$size";
     }
 
     /**
-    * Returns the a boolean for know if user has avatar.
-    */
+     * Returns the a boolean for know if user has avatar.
+     */
     public function hasAvatar()
     {
         /*

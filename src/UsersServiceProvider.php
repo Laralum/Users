@@ -2,13 +2,11 @@
 
 namespace Laralum\Users;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Support\ServiceProvider;
+use Laralum\Permissions\PermissionsChecker;
 use Laralum\Users\Models\User;
 use Laralum\Users\Policies\UserPolicy;
-
-use Laralum\Permissions\PermissionsChecker;
 
 class UsersServiceProvider extends ServiceProvider
 {
@@ -30,32 +28,32 @@ class UsersServiceProvider extends ServiceProvider
         [
             'name' => 'Users Access',
             'slug' => 'laralum::users.access',
-            'desc' => "Grants access to laralum/users module",
+            'desc' => 'Grants access to laralum/users module',
         ],
         [
             'name' => 'Create Users',
             'slug' => 'laralum::users.create',
-            'desc' => "Allows creating users",
+            'desc' => 'Allows creating users',
         ],
         [
             'name' => 'Update Users',
             'slug' => 'laralum::users.update',
-            'desc' => "Allows updating users",
+            'desc' => 'Allows updating users',
         ],
         [
             'name' => 'View Users',
             'slug' => 'laralum::users.view',
-            'desc' => "Allows previewing users",
+            'desc' => 'Allows previewing users',
         ],
         [
             'name' => 'Manage Users Roles',
             'slug' => 'laralum::users.roles',
-            'desc' => "Grants access to manage user roles",
+            'desc' => 'Grants access to manage user roles',
         ],
         [
             'name' => 'Delete Users',
             'slug' => 'laralum::users.delete',
-            'desc' => "Allows delete users",
+            'desc' => 'Allows delete users',
         ],
     ];
 
@@ -82,12 +80,10 @@ class UsersServiceProvider extends ServiceProvider
 
         // Make sure the permissions are OK
         PermissionsChecker::check($this->permissions);
-
     }
 
-
     /**
-     * I cheated this comes from the AuthServiceProvider extended by the App\Providers\AuthServiceProvider
+     * I cheated this comes from the AuthServiceProvider extended by the App\Providers\AuthServiceProvider.
      *
      * Register the application's policies.
      *
@@ -99,7 +95,6 @@ class UsersServiceProvider extends ServiceProvider
             Gate::policy($key, $value);
         }
     }
-
 
     /**
      * Register the application services.

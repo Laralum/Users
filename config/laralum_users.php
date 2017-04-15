@@ -9,7 +9,7 @@ return [
     | This are the base settings for users, make sure it's all correct.
     */
     'superadmins' => [
-        'example@email.com'
+        'example@email.com',
     ],
 
 ];
