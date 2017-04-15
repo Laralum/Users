@@ -36,5 +36,5 @@ return [
     'available_roles'       => 'Available Roles',
     'user_roles_updated'    => 'User #:id roles updated!',
     'new_users'             => 'New Users',
-    'last_users'            => 'New users on the last 7 days',   
+    'last_users'            => 'New users on the last 7 days',
 ];

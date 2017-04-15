@@ -3,11 +3,10 @@
 namespace Laralum\Users\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Laralum\Users\Models\User;
-use Laralum\Roles\Models\Role;
-use Auth;
 use File;
+use Illuminate\Http\Request;
+use Laralum\Roles\Models\Role;
+use Laralum\Users\Models\User;
 
 class UserController extends Controller
 {
@@ -19,6 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $this->authorize('view', User::class);
+
         return view('laralum_users::index', ['users' => User::all()]);
     }
 
@@ -37,7 +37,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -45,28 +46,30 @@ class UserController extends Controller
         $this->authorize('create', User::class);
         $this->doValidation($request);
         User::create($request->all());
+
         return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_created', ['email' => $request->email]));
     }
-
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param \Laralum\Users\Models\User $user
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
     {
         $this->authorize('update', $user);
-        return view('laralum_users::edit', ['user' => $user]);
 
+        return view('laralum_users::edit', ['user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request   $request
      * @param \Laralum\Users\Models\User $user
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -81,6 +84,7 @@ class UserController extends Controller
             $update['password'] = bcrypt($request->password);
         }
         $user->update($update);
+
         return redirect()->route('laralum::users.index');
     }
 
@@ -88,6 +92,7 @@ class UserController extends Controller
      * Displays a view to confirm delete.
      *
      * @param \Laralum\Users\Models\User $user
+     *
      * @return \Illuminate\Http\Response
      */
     public function confirmDelete(User $user)
@@ -100,11 +105,11 @@ class UserController extends Controller
         ]);
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
      * @param \Laralum\Users\Models\User $user
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -122,6 +127,7 @@ class UserController extends Controller
      * Manage roles from users.
      *
      * @param \Laralum\Users\Models\User $user
+     *
      * @return \Illuminate\Http\Response
      */
     public function manageRoles(User $user)
@@ -136,8 +142,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request   $request
      * @param \Laralum\Users\Models\User $user
+     *
      * @return \Illuminate\Http\Response
      */
     public function updateRoles(Request $request, User $user)
@@ -146,13 +153,14 @@ class UserController extends Controller
 
         $roles = Role::all();
 
-        foreach($roles as $role) {
-            if( array_key_exists($role->id, $request->all()) ) {
+        foreach ($roles as $role) {
+            if (array_key_exists($role->id, $request->all())) {
                 $role->addUser($user);
             } else {
                 $role->deleteUser($user);
             }
         }
+
         return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_roles_updated', ['id' => $user->id]));
     }
 
@@ -160,7 +168,7 @@ class UserController extends Controller
      * This function valiate the request for create and edit forms.
      *
      * @param \Illuminate\Http\Request $request
-     * @param bool  $requiredPass
+     * @param bool                     $requiredPass
      */
     private function doValidation($request, $requiredPass = true)
     {
@@ -169,8 +177,8 @@ class UserController extends Controller
             $rules = 'required|min:6|confirmed';
         }
         $this->validate($request, [
-            'name' => 'required|max:255',
-            'email' => 'sometimes|required|email|unique:users',
+            'name'     => 'required|max:255',
+            'email'    => 'sometimes|required|email|unique:users',
             'password' => $rules,
         ]);
     }
