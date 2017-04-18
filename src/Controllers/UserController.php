@@ -3,10 +3,11 @@
 namespace Laralum\Users\Controllers;
 
 use App\Http\Controllers\Controller;
-use File;
 use Illuminate\Http\Request;
 use Laralum\Roles\Models\Role;
 use Laralum\Users\Models\User;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -44,7 +45,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', User::class);
-        $this->doValidation($request);
+
+        $this->validate($request, [
+            'name'     => 'required|max:255',
+            'email'    => 'sometimes|required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
         User::create($request->all());
 
         return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_created', ['email' => $request->email]));
@@ -75,15 +82,13 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $this->authorize('update', $user);
-        $this->doValidation($request, false);
-        $update = [
-            'name' => $request->name,
-        ];
-        if ($request->password) {
-            $this->doValidation($request, true);
-            $update['password'] = bcrypt($request->password);
-        }
-        $user->update($update);
+        $this->validate($request, [
+            'name'     => 'required|max:255',
+        ]);
+
+        $user->update([
+            'name' => $request->name
+        ]);
 
         return redirect()->route('laralum::users.index');
     }
@@ -162,24 +167,5 @@ class UserController extends Controller
         }
 
         return redirect()->route('laralum::users.index')->with('success', __('laralum_users::general.user_roles_updated', ['id' => $user->id]));
-    }
-
-    /**
-     * This function valiate the request for create and edit forms.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param bool                     $requiredPass
-     */
-    private function doValidation($request, $requiredPass = true)
-    {
-        $rules = '';
-        if ($requiredPass) {
-            $rules = 'required|min:6|confirmed';
-        }
-        $this->validate($request, [
-            'name'     => 'required|max:255',
-            'email'    => 'sometimes|required|email|unique:users',
-            'password' => $rules,
-        ]);
     }
 }

@@ -1,10 +1,12 @@
 {
     "items": [
         {
+            "permission" : "laralum::users.access",
             "trans": "laralum_users::general.user_list",
             "route": "laralum::users.index"
         },
         {
+            "permission" : "laralum::users.create",
             "trans": "laralum_users::general.create_user",
             "route": "laralum::users.create"
         }

@@ -66,7 +66,6 @@ class UserPolicy
      */
     public function update($user, User $userToManage)
     {
-        $user = User::findOrFail($user);
         if ($userToManage->id == $user->id || $userToManage->superAdmin()) {
             return false;
         }
@@ -90,7 +89,7 @@ class UserPolicy
         if (User::findOrFail($user->id)->superAdmin()) {
             return true;
         }
-        $user = User::findOrFail($user);
+
         if ($userToManage->id == $user->id || $userToManage->superAdmin()) {
             return false;
         }
@@ -107,11 +106,10 @@ class UserPolicy
      */
     public function delete($user, User $userToManage)
     {
-        $user = User::findOrFail($user);
         if ($userToManage->id == $user->id || $userToManage->superAdmin()) {
             return false;
         }
 
-        return $user->hasPermission('laralum::users.delete');
+        return User::findOrFail($user)->hasPermission('laralum::users.delete');
     }
 }
