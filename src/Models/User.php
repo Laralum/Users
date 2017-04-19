@@ -16,7 +16,7 @@ class User extends ExtendUser
      */
     public function superAdmin()
     {
-        return in_array($this->email, config('laralum_users.superadmins'));
+        return in_array($this->email, config('laralum.superadmins'));
     }
 
     /**
