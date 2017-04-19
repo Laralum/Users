@@ -4,10 +4,9 @@ namespace Laralum\Users\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Laralum\Roles\Models\Role;
 use Laralum\Users\Models\User;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -87,7 +86,7 @@ class UserController extends Controller
         ]);
 
         $user->update([
-            'name' => $request->name
+            'name' => $request->name,
         ]);
 
         return redirect()->route('laralum::users.index');
