@@ -73,6 +73,10 @@ class UsersServiceProvider extends ServiceProvider
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Routes/web.php';
         }
+        
+        $this->publishes([
+            __DIR__.'/Views/public' => resource_path('views/vendor/laralum/users'),
+        ], 'laralum_users');
 
         // Make sure the permissions are OK
         PermissionsChecker::check($this->permissions);
