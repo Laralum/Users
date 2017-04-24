@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $this->authorize('view', User::class);
 
-        return view('laralum_users::index', ['users' => User::all()]);
+        return view('laralum_users::index', ['users' => User::paginate(50)]);
     }
 
     /**
