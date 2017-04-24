@@ -18,11 +18,9 @@ class UserPolicy
      */
     public function access($user)
     {
-        if (User::findOrFail($user->id)->superAdmin()) {
-            return true;
-        }
+        $user = User::findOrFail($user->id);
 
-        return User::findOrFail($user->id)->hasPermission('laralum::users.access');
+        return $user->hasPermission('laralum::users.access') || $user->superAdmin();
     }
 
     /**
@@ -34,11 +32,9 @@ class UserPolicy
      */
     public function view($user)
     {
-        if (User::findOrFail($user->id)->superAdmin()) {
-            return true;
-        }
+        $user = User::findOrFail($user->id);
 
-        return User::findOrFail($user->id)->hasPermission('laralum::users.view');
+        return $user->hasPermission('laralum::users.view') || $user->superAdmin();
     }
 
     /**
@@ -50,11 +46,9 @@ class UserPolicy
      */
     public function create($user)
     {
-        if (User::findOrFail($user->id)->superAdmin()) {
-            return true;
-        }
+        $user = User::findOrFail($user->id);
 
-        return User::findOrFail($user->id)->hasPermission('laralum::users.create');
+        return $user->hasPermission('laralum::users.create') || $user->superAdmin();
     }
 
     /**
@@ -70,11 +64,9 @@ class UserPolicy
             return false;
         }
 
-        if (User::findOrFail($user->id)->superAdmin()) {
-            return true;
-        }
+        $user = User::findOrFail($user->id);
 
-        return User::findOrFail($user->id)->hasPermission('laralum::users.update');
+        return $user->hasPermission('laralum::users.update') || $user->superAdmin();
     }
 
     /**
@@ -86,15 +78,13 @@ class UserPolicy
      */
     public function roles($user, User $userToManage)
     {
-        if (User::findOrFail($user->id)->superAdmin()) {
-            return true;
-        }
-
         if ($userToManage->id == $user->id || $userToManage->superAdmin()) {
             return false;
         }
 
-        return User::findOrFail($user->id)->hasPermission('laralum::users.roles');
+        $user = User::findOrFail($user->id);
+
+        return $user->hasPermission('laralum::users.roles') || $user->superAdmin();
     }
 
     /**
@@ -110,6 +100,8 @@ class UserPolicy
             return false;
         }
 
-        return User::findOrFail($user)->hasPermission('laralum::users.delete');
+        $user = User::findOrFail($user->id);
+
+        return $user->hasPermission('laralum::users.delete') || $user->superAdmin();
     }
 }
