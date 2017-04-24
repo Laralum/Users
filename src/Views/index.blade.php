@@ -35,15 +35,33 @@
                                             <td>{{ $user->email }}</td>
                                             <td class="uk-table-shrink">
                                                 <div class="uk-button-group">
-                                                    <a href="{{ route('laralum::users.roles.manage', ['id' => $user->id]) }}" class="uk-button uk-button-small uk-button-default">
-                                                        @lang('laralum_users::general.roles')
-                                                    </a>
-                                                    <a href="{{ route('laralum::users.edit', ['id' => $user->id]) }}" class="uk-button uk-button-small uk-button-default @if($user->id == Auth::id()) uk-disabled @endif">
-                                                        @lang('laralum_users::general.edit')
-                                                    </a>
-                                                    <a href="{{ route('laralum::users.destroy.confirm', ['user' => $user->id]) }}" class="uk-button uk-button-small uk-button-danger @if($user->id == Auth::id()) uk-disabled @endif">
-                                                        @lang('laralum_users::general.delete')
-                                                    </a>
+                                                    @can('roles', $user)
+                                                        <a href="{{ route('laralum::users.roles.manage', ['id' => $user->id]) }}" class="uk-button uk-button-small uk-button-default">
+                                                            @lang('laralum_users::general.roles')
+                                                        </a>
+                                                    @else
+                                                        <button disabled class="uk-button uk-button-small uk-button-default uk-disabled">
+                                                            @lang('laralum_users::general.roles')
+                                                        </button>
+                                                    @endcan
+                                                    @can('update', $user)
+                                                        <a href="{{ route('laralum::users.edit', ['id' => $user->id]) }}" class="uk-button uk-button-small uk-button-default @if($user->id == Auth::id()) uk-disabled @endif">
+                                                            @lang('laralum_users::general.edit')
+                                                        </a>
+                                                    @else
+                                                        <button disabled class="uk-button uk-button-small uk-button-default uk-disabled">
+                                                            @lang('laralum_users::general.edit')
+                                                        </button>
+                                                    @endcan
+                                                    @can('delete', $user)
+                                                        <a href="{{ route('laralum::users.destroy.confirm', ['user' => $user->id]) }}" class="uk-button uk-button-small uk-button-danger @if($user->id == Auth::id()) uk-disabled @endif">
+                                                            @lang('laralum_users::general.delete')
+                                                        </a>
+                                                    @else
+                                                        <button disabled class="uk-button uk-button-small uk-button-default uk-disabled">
+                                                            @lang('laralum_users::general.delete')
+                                                        </button>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>
