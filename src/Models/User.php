@@ -4,6 +4,7 @@ namespace Laralum\Users\Models;
 
 use App\User as ExtendUser;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Laralum\Notifications\Traits\Notifiable;
 use Laralum\Roles\Traits\HasRolesAndPermissions;
 
@@ -51,5 +52,16 @@ class User extends ExtendUser
 
         // There's always a gavatar
         return true;
+    }
+
+    /**
+     * Hash the password before saving.
+     *
+     * @param string  $password
+     * @return void
+     */
+    public function setPasswordAttribute($password)
+    {
+      $this->attributes['password'] = Hash::make($password);
     }
 }
