@@ -57,11 +57,12 @@ class User extends ExtendUser
     /**
      * Hash the password before saving.
      *
-     * @param string  $password
+     * @param string $password
+     *
      * @return void
      */
     public function setPasswordAttribute($password)
     {
-      $this->attributes['password'] = Hash::make($password);
+        $this->attributes['password'] = Hash::make($password);
     }
 }
