@@ -65,4 +65,14 @@ class User extends ExtendUser
     {
         $this->attributes['password'] = Hash::make($password);
     }
+    
+    /**
+     * Return if the user have access to laralum.
+     *
+     * @return bool
+     */
+    public function laralumAccess()
+    {
+        return $this->hasPermission('laralum::access') || $this->superAdmin();
+    }
 }
