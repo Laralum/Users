@@ -2,7 +2,7 @@
 
 namespace Laralum\Users\Models;
 
-use App\User as ExtendUser;
+use Illuminate\Foundation\Auth\User as ExtendUser;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Laralum\Notifications\Traits\Notifiable;
@@ -11,6 +11,24 @@ use Laralum\Roles\Traits\HasRolesAndPermissions;
 class User extends ExtendUser
 {
     use Notifiable, HasRolesAndPermissions;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     /**
      * Returns true if the user is a super administrator.
@@ -65,7 +83,7 @@ class User extends ExtendUser
     {
         $this->attributes['password'] = Hash::make($password);
     }
-    
+
     /**
      * Return if the user have access to laralum.
      *
