@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Laralum\Notifications\Traits\Notifiable;
 use Laralum\Roles\Traits\HasRolesAndPermissions;
+use ConsoleTVs\Support\Traits\MaterialFunctions;
+use ConsoleTVs\Support\Traits\Utilities;
+use Laralum\Laralum\Packages;
 
 class User extends ExtendUser
 {
@@ -50,10 +53,12 @@ class User extends ExtendUser
         return "https://tracker.moodle.org/secure/attachment/30912/f3.png";
         */
         // Get gavatar avatar
-        $email = md5(strtolower(trim($this->email)));
-        $default = urlencode('https://tracker.moodle.org/secure/attachment/30912/f3.png');
 
-        return "https://www.gravatar.com/avatar/$email?d=$default&s=$size";
+        if (Utilities::validGravatar($this->email)) {
+        	return Utilities::gavatar($this->email);
+        }
+        $color = Packages::installed('customization') ? \Laralum\Customization\Models\Customization::first()->navbar_color : '#1e87f0';
+        return MaterialFunctions::materialAvatar($this->name, $size, $color);
     }
 
     /**
