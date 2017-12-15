@@ -2,14 +2,14 @@
 
 namespace Laralum\Users\Models;
 
+use ConsoleTVs\Support\Traits\MaterialFunctions;
+use ConsoleTVs\Support\Traits\Utilities;
 use Illuminate\Foundation\Auth\User as ExtendUser;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Laralum\Laralum\Packages;
 use Laralum\Notifications\Traits\Notifiable;
 use Laralum\Roles\Traits\HasRolesAndPermissions;
-use ConsoleTVs\Support\Traits\MaterialFunctions;
-use ConsoleTVs\Support\Traits\Utilities;
-use Laralum\Laralum\Packages;
 
 class User extends ExtendUser
 {
@@ -55,9 +55,10 @@ class User extends ExtendUser
         // Get gavatar avatar
 
         if (Utilities::validGravatar($this->email)) {
-        	return Utilities::gavatar($this->email);
+            return Utilities::gavatar($this->email);
         }
         $color = Packages::installed('customization') ? \Laralum\Customization\Models\Customization::first()->navbar_color : '#1e87f0';
+
         return MaterialFunctions::materialAvatar($this->name, $size, $color);
     }
 
